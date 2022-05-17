@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/StarAdmin-Free-React-Admin-Template" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/airframe-react" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/client" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/client_based" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/turnover_planning" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../Templates/react-datta-able" vcs="Git" />
+  </component>
+</project>

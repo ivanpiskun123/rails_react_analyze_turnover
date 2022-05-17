@@ -1,0 +1,53 @@
+<div class="ui centered-s  relaxed  grid">
+      <div class="one wide column"></div>
+      <div class="sixteen wide column">
+
+      <div class=" ui secondary  segment stacked ">
+
+        <h2 class="ui center aligned dividing header">
+            <i class="address card icon"></i>
+          Вход
+        </h2>
+
+        <div class="ui form ">
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <div class="field">
+            <%= f.label :email %>
+            <div class="ui left icon input">
+            <%= f.email_field :email, autofocus: true ,placeholder:"Email"%>
+            <i class="user icon"></i>
+            </div>
+          </div>
+
+
+
+
+          <div class="field">
+            <%= f.label :password , "Пароль"%>
+            <div class="ui left icon input">
+            <%= f.password_field :password, autocomplete: "off" ,placeholder:"Пароль"%>
+            <i class="lock icon"></i>
+            </div>
+          </div>
+
+
+
+              <div class="ui center aligned header">
+                  <div class="actions">
+                    <%= f.submit "Войти" ,class: "ui submit button violet sign-button"%>
+                  </div>
+              </div>
+
+        <% end %>
+        <div class="ui horizontal divider">Или</div>
+        <div class="ui celled horizontal list">
+          <%= render "devise/shared/links" %>
+        </div>
+
+        </div>
+      </div>
+    </div>
+
+  <div class="one wide column"></div>
+
+</div>

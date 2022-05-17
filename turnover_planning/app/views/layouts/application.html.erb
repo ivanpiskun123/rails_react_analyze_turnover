@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TurnoverPlanning</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+  </head>
+
+  <body style="background: #6B3759; background: -webkit-linear-gradient(#6B3759, #3E3C6B); background:    -moz-linear-gradient(#6B3759, #3E3C6B); background: linear-gradient(#6B3759, #3E3C6B);">
+
+
+    <% if current_user %>
+
+    <div class="ui grid">
+        <div class="sixteen wide column">
+          <%= render partial: 'shared/navigation' %>
+          <%= yield %>
+    </div>
+
+      </div>
+
+      <% else %>
+        <%= yield %>
+
+    <% end %>
+
+
+
+
+
+
+
+  </body>
+</html>

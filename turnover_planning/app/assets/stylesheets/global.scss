@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+
+* {
+  font-family: 'Roboto Slab', serif;
+ }
+ .centered-s {
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   /* bring your own prefixes */
+   transform: translate(-50%, -50%);
+ }
+
+ .home-image {
+  box-shadow: 0 0 5px 5px white inset;
+ }
+
+ .mr-2 {
+   margin-right: 10px;
+ }

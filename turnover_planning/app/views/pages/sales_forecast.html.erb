@@ -1,0 +1,118 @@
+
+<div class="ui grid">
+
+  <div class="one wide column">
+  </div>
+
+  <div class="fourteen wide column">
+        <div class="ui  inverted segment" style="background-color: #D0C5DC">
+        <br>
+          <div class="ui two column centered grid">
+            <h2 class=" ui center aligned header " style="  color: #3E3C6B; font-size: 220%">
+              <i class="search icon"></i>
+              <div class="content">
+                  Прогноз продаж продуктов (от <%= Month.last.date %>)
+                <div class="sub header" style="color: black">Глубина прогноза - <%= @depth %> месяцев, учётных месяцев - <%= @month_count %> </div>
+              </div>
+            </h2>
+            </div>
+            <br>
+
+    <br>
+        <br>
+            <div class="ui grid">
+                  <div class="sixteen wide column"  ">
+                    <h2 class=" ui center aligned header " style="  color: #3E3C6B; font-size: 150%; font-famaly: 'Roboto Slab', serif;">
+                      <div class="content">
+                        <i class="chart bar icon"></i>
+                          Сумма продаж по всем продуктам
+                          </div>
+                      </h2>
+                      <%= line_chart @charts.map { |chart|
+                          {name: chart[0], data: chart[1] }},
+                          download: {background: "#ffffff", filename: "Прогноз продаж товаров"},
+                          xtitle: "Отчётный месяц", ytitle: "Сумма продаж, $", prefix: "$", thousands: ",",
+                          min: -10000
+                       %>
+
+                      </div>
+                    <div class="one wide column"  ">
+                      </div>
+
+                  <div class="fourteen wide column"  ">
+
+                      <h2 class=" ui center aligned header " style="  color: #3E3C6B; font-size: 150%; font-famaly: 'Roboto Slab', serif;">
+                        <div class="content">
+                          <i class="chart bar icon"></i>
+                            Таблица значений продаж, $
+                          </div>
+                      </h2>
+
+                      <table class="ui compact celled definition table">
+                      <thead>
+                      <tr>
+                      <th class=" center aligned">Отчетный месяц</th>
+
+                      <% Product.all.each do |p| %>
+                        <th class=" center aligned"><i class="product icon"></i><%= p.name %></th>
+                      <% end %>
+
+                      </tr>
+                      </thead>
+                      <tbody>
+
+
+
+                      <% @t_data.each_with_index do |d, idx| %>
+
+
+                      <% if idx >= @month_count %>
+                      <tr class="positive">
+                      <% else %>
+                      <tr>
+                      <% end %>
+
+                      <% d.each do |data| %>
+                        <td class="center aligned" style="vertical-align: middle">
+                          <%= data %>
+                        </td>
+                      <%  end %>
+
+                      </tr>
+
+                      <% end %>
+
+                      </tbody>
+
+                      </table>
+
+                      </div>
+
+                      <div class="one wide column"  ">
+                        </div>
+
+                    </div>
+
+                    <br>
+                    <br>
+                    <div class="ui two column centered grid">
+                  <h3 class=" ui center aligned header " style="  color: #3E3C6B; font-size: 125%">
+                    <i class="info icon"></i>
+                    <div class="content">
+                      <i>**Выделенные зелёным строки соответствуют спрогнозированным значениям.</i>
+                    </div>
+                  </h3>
+                  </div>
+                  <br>
+                  <br>
+
+            </div>
+
+          </div>
+  </div>
+
+
+  <div class="one wide column">
+  </div>
+
+</div>

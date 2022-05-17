@@ -1,0 +1,150 @@
+
+
+<div class="ui grid">
+
+  <div class="one wide column">
+  </div>
+
+  <div class="fourteen wide column">
+        <div class="ui  inverted segment" style="background-color: #D0C5DC">
+
+        <br>
+
+          <div class="ui two column centered grid">
+            <h2 class=" ui center aligned header " style="  color: #3E3C6B; font-size: 220%">
+              <i class="chart area icon"></i>
+              <div class="content">
+                Общий отчёт (<%= @current_year %>)
+                <div class="sub header" style="color: black">Для просмотра представлены основные графики</div>
+              </div>
+            </h2>
+            </div>
+            <br>
+
+
+    <br>
+        <br>
+            <div class="ui grid">
+                  <div class="eight wide column"  ">
+                    <h2 class=" ui center aligned header " style="  color: #3E3C6B; font-size: 150%; font-famaly: 'Roboto Slab', serif;">
+                      <div class="content">
+                        <i class="chart bar icon"></i>
+                      Динамика товарооборота в сопоставимых ценах
+                          </div>
+                      </h2>
+                      <%= column_chart @dynamic_indexed_chart, { ytitle: "Сумма продаж"}  %>
+                      </div>
+                        <div class="one wide column"  ">
+
+                                      <div class="ui vertical divider">
+                         </div>
+                        </div>
+
+                    <div class="seven wide column">
+                      <h2 class=" ui center aligned header " style="  color: #3E3C6B; font-size: 150%; font-famaly: 'Roboto Slab', serif;">
+                        <div class="content">
+                            <i class="chart line icon"></i>
+                        Средняя цена реализации товаров
+                            </div>
+                        </h2>
+                          <%= line_chart @average_price_chart, { ytitle: "Средняя цена"}  %>
+                    </div>
+
+                    <div class="eight wide column">
+                      <h2 class=" ui center aligned header " style="  color: #3E3C6B; font-size: 150%; font-famaly: 'Roboto Slab', serif;">
+                        <div class="content">
+                            <i class="chart pie icon"></i>
+                        Товарно-групповая структура товарооборота
+                            </div>
+                        </h2>
+                      <%= pie_chart @product_group_data,
+                          { dataset: {borderWidth: 2}, empty: "Нет данных", precision: 2,
+                          legend: "right"
+                             }%>
+                    </div>
+
+                    <div class="one wide column"  ">
+                          <div class="ui vertical divider">
+                     </div>
+                    </div>
+
+
+
+                    <div class="seven wide  column">
+
+                          <div class="ui large vertical steps">
+
+
+                                <div class="active step" >
+                                  <i class="calendar alternate icon" style="  color: #3E3C6B;"></i>
+                                  <div class="content">
+                                    <div class="title">
+                                      <%= @dynamic_indexed_chart.length %>
+                                      Месяцев
+                                    </div>
+                                    <div class="description">Количество отчётных месяцев в году</div>
+                                  </div>
+                                </div>
+
+                                <div class="active step" >
+                                  <div class="ui statistic">
+                                      <div class="value  mr-2" style="color: #3E3C6B">
+                                        <%= @execution_percentage %>
+                                      </div>
+                                    </div>
+                                  <div class="content">
+                                    <div class="title">
+                                      % от плана продаж
+                                    </div>
+                                    <div class="description">Выполнение годового плана продаж</div>
+                                  </div>
+                                </div>
+
+                              <div class="active step" >
+                                <div class="ui small statistic">
+                                    <div class="value  mr-2" style="color: #3E3C6B">
+                                      <%= @average_price %>
+                                    </div>
+                                  </div>
+                                <div class="content">
+                                  <div class="title">
+                                    $
+                                  </div>
+                                  <div class="description">Средняя годовая  цена реализации</div>
+                                </div>
+                              </div>
+
+                                <div class="active step" >
+                                  <div class="ui small statistic">
+                                      <div class="value  mr-2" style="color: #3E3C6B">
+                                        <%= @wholesale_percentage %>
+                                      </div>
+                                    </div>
+                                  <div class="content">
+                                    <div class="title">
+                                      % оптовых продаж
+                                    </div>
+                                    <div class="description">Денежное отношение оптовых продаж в году</div>
+                                  </div>
+                                </div>
+
+
+
+                              </div>
+                            </div>
+                    </div>
+
+
+            </div>
+
+
+
+
+          </div>
+  </div>
+
+
+  <div class="one wide column">
+  </div>
+
+</div>

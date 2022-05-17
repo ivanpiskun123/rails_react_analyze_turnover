@@ -1,0 +1,102 @@
+<div class="ui grid">
+
+
+
+  <div class="one wide column">
+  </div>
+
+  <div class="fourteen wide column">
+        <div class="ui  inverted segment" style="background-color: #D9D5DE">
+
+        <br>
+
+        <div class="ui two column centered grid">
+          <h2 class=" ui center aligned header " style="  color: #3E3C6B; font-size: 185%">
+            <i class="chart bar icon"></i>
+            <div class="content">
+              Динамика выполнения плана продаж (<%= @current_year %>)
+            </div>
+          </h2>
+          </div>
+              <br>
+      <br>
+          <br>
+
+          <div class="ui grid">
+
+            <div class="eight wide column"  ">
+                <br><br>  <br><br>
+                  <%= column_chart @dynamic_plan_chart, { ytitle: "Сумма продаж", download: {background: "#ffffff", filename: "Выполнение плана (#{@current_year})"}}  %>
+              </div>
+
+              <div class="eight wide column"  ">
+
+
+                    <table class="ui compact celled definition table">
+              <thead>
+                    <tr>
+                    <th class=" center aligned">№</th>
+                    <th class=" center aligned">Месяц</th>
+                    <th class=" center aligned">План</th>
+                    <th class=" center aligned">Продано</th>
+                    <th class=" center aligned"><i class="percent icon"></i>Выполнено</th>
+                    </tr>
+              </thead>
+              <tbody>
+
+              <% @dynamic_plan_data.each_with_index do |d, idx| %>
+              <% if d[4] < 70 %>
+                <tr class="negative">
+              <% elsif d[4] >= 100 %>
+                  <tr class="positive">
+                    <% else %>
+                    <tr>
+              <% end %>
+
+
+                    <td class="center aligned" style="vertical-align: middle">
+                      <%= d[0] %>
+                    </td>
+                    <td class="center aligned" style="vertical-align: middle">
+                        <%= d[1] %>
+                    </td>
+                    <td class="center aligned" style="vertical-align: middle">
+                        <%= d[2] %>
+                    </td>
+                    <td class="center aligned" style="vertical-align: middle"><%= d[3] %></td>
+                    <td class="center aligned" style="vertical-align: middle"><%= d[4] %></td>
+
+                </tr>
+              <% end %>
+
+              </tbody>
+
+              </table>
+
+                </div>
+
+            </div>
+
+              <br>
+              <br>
+              <br>
+            <div class="ui two column centered grid">
+          <h3 class=" ui center aligned header " style="  color: #3E3C6B; font-size: 125%">
+            <i class="info icon"></i>
+            <div class="content">
+              <i>**Выделенные красным строки соответствуют месяцам с низким % выполнения плана, зеленым - с перевыполнением плана.</i>
+            </div>
+          </h3>
+          </div>
+          <br>
+          <br>
+
+
+  </div>
+
+
+
+    </div>
+
+
+      </div>

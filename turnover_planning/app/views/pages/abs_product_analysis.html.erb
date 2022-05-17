@@ -1,0 +1,135 @@
+<div class="ui grid">
+
+
+
+  <div class="three wide column">
+  </div>
+
+  <div class="ten wide column">
+        <div class="ui  inverted segment" style="background-color: #D9D5DE">
+
+        <br>
+
+        <div class="ui two column centered grid">
+          <h2 class=" ui center aligned header " style="  color: #3E3C6B; font-size: 185%">
+            <i class="search icon"></i>
+            <div class="content">
+               ABC-анализ продуктов (<%= @current_year %>)
+            </div>
+          </h2>
+          </div>
+              <br>
+      <br>
+          <br>
+
+          <div class="ui grid">
+
+
+              <div class="five wide column">
+              </div>
+
+              <div class="ui seven wide column centered "  ">
+                <div class="ui  menu">
+                        <a class="item">
+                          <i class="icon product hunt"></i> Группа "A"
+                          <div class="floating ui green label">70%</div>
+                        </a>
+                        <a class="item">
+                          <i class="icon product hunt"></i> Группа "B"
+                          <div class="floating ui yellow label">25%</div>
+                        </a>
+                        <a class="item">
+                          <i class="icon product hunt"></i> Группа "C"
+                          <div class="floating ui grey label">5%</div>
+                        </a>
+                    </div>
+              </div>
+              <div class="four wide column">
+              </div>
+
+              <div class="one wide column">
+              </div>
+
+
+                <div class="ui fourteen wide column centered"  ">
+                      <table class="ui compact celled definition table">
+                <thead>
+                      <tr>
+                      <th class=" center aligned">№</th>
+                      <th class=" center aligned">Название продукта</th>
+                      <th class=" center aligned"><i class="money bill alternate outline icon"></i>Продано</th>
+                      <th class=" center aligned"><i class="percent icon"></i>Доля</th>
+                    <th class=" center aligned"><i class="percent icon"></i>Добавленная доля</th>
+              <th class=" center aligned"><i class="object group outline icon"></i>Группа</th>
+                      </tr>
+                </thead>
+                <tbody>
+
+                <% @data.each do |d| %>
+
+                <% if d[5] == 'A' %>
+                    <tr class="positive">
+                <% elsif d[5] == 'C' %>
+                    <tr class="active">
+                      <% else %>
+                      <tr>
+                <% end %>
+
+                      <td class="center aligned" style="vertical-align: middle">
+                        <%= d[0] %>
+                      </td>
+                      <td class="center aligned" style="vertical-align: middle">
+                          <%= d[1] %>
+                      </td>
+                      <td class="center aligned" style="vertical-align: middle">
+                          <%= d[2] %>
+                      </td>
+                      <td class="center aligned" style="vertical-align: middle">
+                          <%= d[3] %>
+                      </td>
+                      <td class="center aligned" style="vertical-align: middle">
+                          <%= d[4] %>
+                      </td>
+                      <td class="center aligned" style="vertical-align: middle">
+                          <%= d[5] %>
+                      </td>
+                  </tr>
+                <% end %>
+
+                </tbody>
+
+                </table>
+
+                  </div>
+
+                  <div class="one wide column">
+                  </div>
+
+            </div>
+    <br>
+    <br>
+        <br>
+            <div class="ui two column centered grid">
+          <h3 class=" ui center aligned header " style="  color: #3E3C6B; font-size: 125%">
+            <i class="info icon"></i>
+            <div class="content">
+              <i>**Выделенные зеленым строки соответствуют наиболее важным с точки зрения кол-ва продаж продуктам, серым - наименее важным.</i>
+            </div>
+          </h3>
+          </div>
+
+              <br>
+
+
+          <br>
+          <br>
+
+
+  </div>
+
+
+
+    </div>
+
+
+      </div>

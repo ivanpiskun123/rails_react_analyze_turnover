@@ -1,0 +1,83 @@
+<div class="ui grid">
+
+
+
+  <div class="one wide column">
+  </div>
+
+  <div class="fourteen wide column">
+        <div class="ui  inverted segment" style="background-color: #D9D5DE">
+
+        <br>
+
+        <div class="ui two column centered grid">
+          <h2 class=" ui center aligned header " style="  color: #3E3C6B; font-size: 185%">
+            <i class="chart line icon"></i>
+            <div class="content">
+              Cредняя цена реализации товаров (<%= @current_year %>)
+            </div>
+          </h2>
+          </div>
+              <br>
+      <br>
+          <br>
+
+          <div class="ui grid">
+
+            <div class="ten wide column"  ">
+              <br><br>
+                  <%= area_chart @chart, { ytitle: "Средняя цена продаж", download: {background: "#ffffff", filename: "Средняя цена продаж (#{@current_year})"}}  %>
+              </div>
+
+              <div class="six wide column"  ">
+
+
+                    <table class="ui compact celled definition table">
+              <thead>
+                    <tr>
+                    <th class=" center aligned">№</th>
+                    <th class=" center aligned">Месяц</th>
+                    <th class=" center aligned"><i class="money bill alternate outline icon"></i>Средняя цена продаж</th>
+                    </tr>
+              </thead>
+              <tbody>
+
+              <% @data.each_with_index do |d, idx| %>
+
+                    <tr>
+
+                    <td class="center aligned" style="vertical-align: middle">
+                      <%= d[0] %>
+                    </td>
+                    <td class="center aligned" style="vertical-align: middle">
+                        <%= d[1] %>
+                    </td>
+                    <td class="center aligned" style="vertical-align: middle">
+                        <%= d[2] %>
+                    </td>
+
+
+                </tr>
+              <% end %>
+
+              </tbody>
+
+              </table>
+
+                </div>
+
+            </div>
+
+              <br>
+              <br>
+
+
+
+  </div>
+
+
+
+    </div>
+
+
+      </div>

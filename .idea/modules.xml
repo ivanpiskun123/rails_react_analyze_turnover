@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Planning_of_commercial_enterprise.iml" filepath="$PROJECT_DIR$/.idea/Planning_of_commercial_enterprise.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Contracts_automate/client/.idea/client.iml" filepath="$PROJECT_DIR$/../Contracts_automate/client/.idea/client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Templates/react-datta-able/.idea/react-datta-able.iml" filepath="$PROJECT_DIR$/../Templates/react-datta-able/.idea/react-datta-able.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Contracts_automate/server/.idea/server.iml" filepath="$PROJECT_DIR$/../Contracts_automate/server/.idea/server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Templates/WORKED/datta-able-free-react-admin-template/template/.idea/template.iml" filepath="$PROJECT_DIR$/../Templates/WORKED/datta-able-free-react-admin-template/template/.idea/template.iml" />
+    </modules>
+  </component>
+</project>

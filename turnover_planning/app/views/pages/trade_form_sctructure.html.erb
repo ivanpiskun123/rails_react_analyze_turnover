@@ -1,0 +1,86 @@
+<div class="ui grid">
+
+
+
+  <div class="three wide column">
+  </div>
+
+  <div class="ten wide column">
+        <div class="ui  inverted segment" style="background-color: #D9D5DE">
+
+        <br>
+
+        <div class="ui two column centered grid">
+          <h2 class=" ui center aligned header " style="  color: #3E3C6B; font-size: 185%">
+            <i class="chart pie icon"></i>
+            <div class="content">
+               Структура товарооборота по формам торговли (<%= @current_year %>)
+            </div>
+          </h2>
+          </div>
+              <br>
+      <br>
+          <br>
+
+          <div class="ui grid">
+
+            <div class="eight wide column"  ">
+              <br>
+              <%= pie_chart @data,
+                  { dataset: {borderWidth: 2}, empty: "Нет данных", precision: 2,
+                 download: {background: "#ffffff", filename: "Структура по формам торговли (#{@current_year})"}
+                     }%>
+              </div>
+
+              <div class="eight wide column"  ">
+
+
+                    <table class="ui compact celled definition table">
+              <thead>
+                    <tr>
+                    <th class=" center aligned">№</th>
+                    <th class=" center aligned"><i class="adjust icon"></i>Форма торговли</th>
+                    <th class=" center aligned">Продано раз</th>
+                    </tr>
+              </thead>
+              <tbody>
+
+              <% @data.each_with_index do |d, idx| %>
+
+                    <tr>
+
+                    <td class="center aligned" style="vertical-align: middle">
+                      <%= idx+1 %>
+                    </td>
+                    <td class="center aligned" style="vertical-align: middle">
+                        <%= d[0] %>
+                    </td>
+                    <td class="center aligned" style="vertical-align: middle">
+                        <%= d[1] %>
+                    </td>
+                </tr>
+              <% end %>
+
+              </tbody>
+
+              </table>
+
+                </div>
+
+            </div>
+
+              <br>
+
+
+          <br>
+          <br>
+
+
+  </div>
+
+
+
+    </div>
+
+
+      </div>

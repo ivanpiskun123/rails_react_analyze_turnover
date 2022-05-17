@@ -1,0 +1,222 @@
+
+<div class="ui grid">
+
+
+
+    <div class="one wide column" ></div>
+
+    <div class="fourteen wide column">
+
+      <div class="ui large menu" style="background-color: #282442">
+
+              <div  id="yearNameId" class=" item year-item" >
+                <% if not @current_year.nil? %>
+                <div  >
+                    <%= @current_year %>
+                </div>
+                <% end %>
+              </div>
+
+          <div class=" item" >
+                      <div class="ui vertical divider">
+         </div>
+        </div>
+
+
+        <% if @current_year.nil? %>
+                <div class=" item " style="background-color: orange">
+        <% else %>
+                  <div class=" item ">
+        <% end %>
+
+          <div class="ui simple dropdown item " style="color: white; font-size: 120% ;">
+            Год
+            <i class="dropdown icon"></i>
+            <div class="menu">
+
+              <% list_years.each do |y| %>
+
+
+                <%= link_to y, { controller: "pages", action: "index", year: y.to_s }, { class: "item" } %>
+
+
+              <% end %>
+
+            </div>
+          </div>
+        </div>
+
+        <% if @current_year.nil? %>
+            <div class=" item"  style="display: none"  >
+        <% else %>
+              <div class=" item"   >
+        <% end %>
+
+
+          <div class="ui simple dropdown item" style="color: #dbdbdb;">
+            <div style="font-size: 120% ;">Отчёт</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+
+              <% reportsList.each do |r| %>
+
+              <%= link_to r[0], { controller: "pages", action: r[1], year: @current_year }, { class: "item" } %>
+
+              <% end %>
+
+              <%= link_to "Общий отчёт", { controller: "pages", action: "index", year: @current_year }, { class: "item" } %>
+
+            </div>
+          </div>
+        </div>
+
+
+        <% if ( not @current_year.nil? ) and   diplom_version  %>
+          <div class=" item" style="color: #dbdbdb; font-size: 120% ;">
+        <% else %>
+            <div class=" item" style="color: #dbdbdb; font-size: 120% ; display: none">
+        <% end %>
+
+        <%= link_to "ABC-анализ", { controller: "pages", action: "abs_product_analysis", year: @current_year }, { class: "item", style: "color: #dbdbdb"} %>
+
+        </div>
+
+        <div class="right menu">
+
+          <% if diplom_version && (not @current_year.nil?)  %>
+              <div class="ui buttons" style="padding-top: 12px !important; padding-bottom: 12px !important;padding-right: 90px !important;">
+
+                <% unless @current_year.to_i==list_years.first  %>
+                    <button class="ui labeled icon button">
+                      <i class="left chevron icon"></i>
+                      <%= link_to "Предыдущий" , { controller: "pages", action: controller.action_name, year: list_years[list_years.index(@current_year.to_i)-1] } %>
+                    </button>
+
+                <% end %>
+                <button class="ui button disabled">
+                  <i class="calendar alternate icon"></i>
+                    <%= @current_year %> год
+                </button>
+                <% unless @current_year.to_i==list_years.last %>
+                  <button class="ui right labeled icon button">
+                    <%= link_to "Следующий" , { controller: "pages", action: controller.action_name, year: list_years[list_years.index(@current_year.to_i)+1] } %>
+                    <i class="right chevron icon"></i>
+                  </button>
+                <% end %>
+
+
+
+              </div>
+          <% end %>
+          <div class="item" style="padding-top: 12px !important; padding-bottom: 12px !important">
+            <div id="forecast-modal" class="ui button primary"
+                          data-tooltip="Прогнозирование продаж по продуктам"
+                          data-position="bottom center">
+                    Прогноз
+            </div>
+            </div>
+            <% if current_user.admin? %>
+                  <div class="item">
+
+                    <%= link_to rails_admin_path, class: "ui vertical red animated button" do %>
+                        <div class="hidden content">Данные</div>
+                        <div class="visible content">
+                          <i class="database icon"></i>
+                        </div>
+                      <% end %>
+
+                  </div>
+          <% end %>
+
+        <div class=" item" >
+
+          <%= link_to destroy_user_session_path, class: "ui animated button" do %>
+                  <div class="visible content">Выйти</div>
+                  <div class="hidden content">
+                    <i class="right arrow icon"></i>
+                  </div>
+            <% end %>
+
+          </div>
+          </div>
+      </div>
+    </div>
+
+      <div class="one wide column" ></div>
+
+</div>
+
+<div class="ui small modal">
+  <div class="header"><center>Прогнозирование продаж товаров</center></div>
+  <div class="content">
+
+    <div class="ui info message">
+      <div class="header">
+        О исходных данных месячных продаж прогнозирования:
+      </div>
+      <ul class="list">
+        <li>Глубина прогнозирования составляет треть количества исходных данных месяцев</li>
+        <li>Минимальное количество исходных данных месяцев - 5</li>
+        <li>Прогнозирвоание занимает от 30 до 50 секунд</li>
+      </ul>
+    </div>
+      <h3 class="ui header">Количество месяцев для исходных данных до последнего (<%= Month.last.date %>) </h3>
+    <div class="ui segment">
+      <div class="ui range" id="range-3"></div>
+      <br>
+      <p>
+        Месяцев: <span id="display-3"></span>
+      </p>
+    </div>
+        </div>
+        <div class="ui divider"></div>
+
+        <form action="/pages/sales-forecast" method="get">
+
+            <div class="ui two column centered grid" style="padding-top: 12px !important; padding-bottom: 12px !important">
+
+
+              <div class="ui active dimmer" id="forecastLoadingBtn">
+                <div class="ui huge text loader">Обучение нейронной сети...</div>
+              </div>
+
+
+              <button class="ui primary button" id="createForecastModalId" type="submit" >
+                Прогнозировать
+              </button>
+
+                  <input id="hidden_id" name="month_count" type="hidden" value="5" >
+            </div>
+        </form>
+            <div class="ui divider"></div>
+      </div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+      $("#forecastLoadingBtn").hide()
+
+        $("#forecast-modal").click(function(){
+          $('.ui.small.modal')
+              .modal('show');
+         });
+
+          $('#range-3').range({
+            min: 5,
+            max: <%= Month.count %>,
+            start: 5,
+            onChange: function(value) {
+              $('#display-3').html(value);
+              $('input[type=hidden]').val( value.toString());
+
+            }
+          });
+
+          $("#createForecastModalId").click(function(){
+            $("#forecastLoadingBtn").show();
+            $("#createForecastModalId").hide();
+           });
+
+    });
+</script>

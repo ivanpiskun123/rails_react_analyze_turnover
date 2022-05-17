@@ -1,0 +1,89 @@
+<div class="ui grid">
+
+  <div class="row">
+  </div>
+
+  <div class="two wide column ">
+
+  </div>
+
+  <div class="thirteen wide column ">
+    <div class="ui grid">
+
+        <div class="six wide column">
+          <div class="row">
+
+          </div>
+          <div class="row">
+
+          </div>
+          <br>
+          <h3 class="ui header" style="color: #dbdbdb; font-family: 'Roboto Slab', serif" >
+              <i class="mini red quote left icon"></i>
+          </h3>
+
+          <h2 class="ui header" style="color: #dbdbdb; font-family: 'Roboto Slab', serif" >
+
+
+            Здравствуйте, <% if current_user.admin? %> администратор <% end %><%= current_user.name %>
+          </h2>
+
+          <h3 class="ui header" style="color: #dbdbdb; font-family: 'Roboto Slab', serif">
+              Выберите год для получения доступа к отчётам.
+              <% if current_user.admin? %>
+                  Работа с данными - в <a  id="infoAdminId">режиме администратора</a>.
+              <% end %>
+              <div class="ui divider"></div>
+                Хорошего дня и плодотворной работы сегодня!
+                <p></p>
+                <i class="mini red quote right icon"></i>
+          </h3>
+          </div>
+
+
+
+          <div class="ten wide column" >
+              <img class="disabled ui huge image home-image" src="/assets/home.jpg" style="backdrop-filter: blur(10px)  ;box-shadow: 0 0 5px 5px white inset;">
+            </div>
+
+    </div>
+
+
+    </div>
+
+
+
+  </div>
+
+  <div class="one wide column ">
+
+  </div>
+
+
+</div>
+
+
+<div class="ui basic modal">
+  <div class="ui icon header">
+    <i class="info red icon"></i>
+    <h2 class="ui header" style="color: #dbdbdb; font-family: 'Roboto Slab', serif" >
+    Режим администратора
+    </h2>
+  </div>
+  <div class="content">
+    <h3 class="ui header" style="color: #dbdbdb; font-family: 'Roboto Slab', serif" >
+    <p>Для работы с данными продаж и пользователей перейдите по кнопке <i class="database red icon"></i> в меню.  </p>
+    </h3>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+      $("#infoAdminId").click(function(){
+          $('.ui.basic.modal').modal('show');
+      });
+
+    });
+</script>
