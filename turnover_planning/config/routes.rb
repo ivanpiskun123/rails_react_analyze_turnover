@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     sessions: 'users/sessions'
   }
 
+  get 'pages/get-years'
   get 'pages/index'
   get 'pages/dynamic-plan-execution'
   get 'pages/dynamic-indexed-sales'
@@ -22,8 +23,9 @@ Rails.application.routes.draw do
   get 'pages/seasonality-sctructure'
   get 'pages/average-prices'
   get 'pages/abs-product-analysis'
-  get 'pages/xyz-analysis'
+  get 'pages/xyz_analysis'
   get 'pages/sales-forecast'
+
 
 
 

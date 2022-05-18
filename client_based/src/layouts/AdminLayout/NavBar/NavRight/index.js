@@ -24,6 +24,7 @@ const NavRight = () => {
 
 
   return (
+      <Router>
     <React.Fragment>
       <ListGroup as="ul" bsPrefix=" " className="navbar-nav ml-auto" id="navbar-right">
         <ListGroup.Item as="li" bsPrefix=" ">
@@ -60,7 +61,8 @@ const NavRight = () => {
         </ListGroup.Item>
       </ListGroup>
       <ChatList listOpen={listOpen} closed={() => setListOpen(false)} />
-    </React.Fragment>
+    </React.Fragment></Router>
+
   );
 };
 

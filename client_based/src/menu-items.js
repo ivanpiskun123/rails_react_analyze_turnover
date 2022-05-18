@@ -10,7 +10,7 @@ const menuItems = {
           id: 'forms',
           title: 'Present-отчёт',
           type: 'item',
-          url: '/app/dashboard/default',
+          url: '/charts/present',
           icon: 'feather icon-home ',
         }
       ]
@@ -25,21 +25,14 @@ const menuItems = {
           id: 'breadcrumb',
           title: 'XYZ-анализ ресурсов',
           type: 'item',
-          url: '/sample-page',
+          url: '/charts/xyz',
           icon: 'feather icon-menu',
-        },
-        {
-          id: 'dashboard',
-          title: 'ABC-анализ ресурсов',
-          type: 'item',
-          url: '/app/dashboard/default',
-          icon: 'feather icon-server',
         },
         {
           id: 'breadcrumb',
           title: 'Отчёт групп ресурсов',
           type: 'item',
-          url: '/sample-page',
+          url: '/charts/groups',
           icon: 'feather icon-menu',
         },
       ]
@@ -72,7 +65,7 @@ const menuItems = {
               id: 'tabs-pills',
               title: 'Сезонность',
               type: 'item',
-              url: '/basic/tabs-pills'
+              url: '/charts/season'
             }
           ]
         }
@@ -95,20 +88,14 @@ const menuItems = {
               id: 'pagination',
               title: 'Формы оплаты',
               type: 'item',
-              url: '/basic/pagination'
+              url: '/charts/payment_forms'
             },
             {
               id: 'collapse',
               title: 'Формы торговли',
               type: 'item',
-              url: '/basic/collapse'
+              url: '/charts/trade_forms'
             },
-            {
-              id: 'typography',
-              title: 'Средняя цена продаж',
-              type: 'item',
-              url: '/basic/typography'
-            }
           ]
         }
       ]

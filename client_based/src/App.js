@@ -4,12 +4,15 @@ import { FirebaseProvider } from './contexts/FirebaseContext';
 import routes, { renderRoutes } from './routes';
 import { BASENAME } from './config/constant';
 import {AuthContext} from "./contexts/AuthContext";
+import PagesService from "./API/PagesService";
 import {privateRoutes, publicRoutes} from "./routesConfig";
 
 const App = () => {
 
     const [isAuth, setIsAuth] = useState(false);
     const [currentUserId, setCurrentUserId] = useState(null);
+    const [currentYear, setCurrentYear] = useState(null)
+    const [years, setYears] = useState([])
 
     useEffect( ()=> {
             setIsAuth(false)
@@ -18,8 +21,20 @@ const App = () => {
                 setIsAuth(true)
             }
 
+            const fetchYears = async  ()=>{
+                try{
+                    const response = await PagesService.getYears()
+                    setYears(response.data.data.years)
+                    setCurrentYear(response.data.data.years[0])
+                }
+                catch(e){
+                    console.log(e) }
             }
+            fetchYears()
+        }
         ,[])
+
+
 
     const logOut = ()=>{
         const logOutUser = async () => {
@@ -45,7 +60,10 @@ const App = () => {
                 setIsAuth,
                 currentUserId,
                 setCurrentUserId ,
-                logOut
+                logOut,
+                years,
+                currentYear,
+                setCurrentYear
             }}>
                 {
                     isAuth

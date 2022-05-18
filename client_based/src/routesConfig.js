@@ -71,13 +71,38 @@ export const privateRoutes = [
             },
             {
                 exact: true,
-                path: '/sample-page',
-                component: lazy(() => import('./views/extra/SamplePage'))
+                path: '/charts/season',
+                component: lazy(() => import('./views/charts/nvd3-chart/seasonView'))
+            },
+            {
+                exact: true,
+                path: '/charts/trade_forms',
+                component: lazy(() => import('./views/charts/nvd3-chart/tradeFormsView'))
+            },
+            {
+                exact: true,
+                path: '/charts/payment_forms',
+                component: lazy(() => import('./views/charts/nvd3-chart/paymentFormsView'))
+            },
+            {
+                exact: true,
+                path: '/charts/groups',
+                component: lazy(() => import('./views/charts/nvd3-chart/groupsView'))
+            },
+            {
+                exact: true,
+                path: '/charts/xyz',
+                component: lazy(() => import('./views/charts/nvd3-chart/xyzView'))
+            },
+            {
+                exact: true,
+                path: '/charts/present',
+                component: lazy(() => import('./views/charts/nvd3-chart/presentView'))
             },
             {
                 path: '*',
                 exact: true,
-                component: () => <Redirect to={BASE_URL} />
+                component: () => <Redirect to='/charts/present' />
             }
         ]
     }

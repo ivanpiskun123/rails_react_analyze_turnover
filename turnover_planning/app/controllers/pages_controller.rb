@@ -1,10 +1,15 @@
 class PagesController < ApplicationController
-  before_action :set_current_year
+
+      def home
+      end
 
 
-       def home
+      def get_years
+        render json: {
+          data: {"years": Month.all.to_a.uniq{|m| m.date.year }.map{|m_uniq_year| m_uniq_year.date.year}.sort()}
+        }, status: :ok
+      end
 
-       end
 
        def index
          @dynamic_indexed_chart = []
@@ -45,11 +50,13 @@ class PagesController < ApplicationController
 
        def dynamic_plan_execution
 
-         @dynamic_plan_chart = []
+         @dynamic_plan_chart_exec = []
+         @dynamic_plan_chart_plan = []
          @dynamic_plan_data = []
 
          Month.of_specific_year(params[:year]).each do |m|
-           @dynamic_plan_chart << [m.russian_name_of_month, m.sales_sum_indexed]
+           @dynamic_plan_chart_exec << [m.russian_name_of_month, m.sales_sum]
+           @dynamic_plan_chart_plan << [m.russian_name_of_month, m.sales_plan]
             @dynamic_plan_data << [
               m.month_number,
               m.russian_name_of_month,
@@ -59,15 +66,24 @@ class PagesController < ApplicationController
             ]
          end
 
+         render json: {
+           data: {"exec": @dynamic_plan_chart_exec,
+                  "plan": @dynamic_plan_chart_plan, "table": @dynamic_plan_data}
+         }, status: :ok
+
        end
 
        def dynamic_indexed_sales
-         @chart = []
-         @data = []
+         @dynamic_plan_chart_exec = []
+         @dynamic_plan_chart_plan = []
+         @dynamic_plan_chart_index = []
+         @index_data = []
 
          Month.of_specific_year(params[:year]).each do |m|
-           @chart << [m.russian_name_of_month, m.sales_sum_indexed]
-            @data << [
+           @dynamic_plan_chart_exec << [m.russian_name_of_month, m.sales_sum]
+           @dynamic_plan_chart_plan << [m.russian_name_of_month, m.sales_plan]
+           @dynamic_plan_chart_index << [m.russian_name_of_month, m.sales_sum_indexed]
+           @index_data << [
               m.month_number,
               m.russian_name_of_month,
               m.sales_sum,
@@ -77,6 +93,11 @@ class PagesController < ApplicationController
               m.rate_of_increase_percent
             ]
          end
+
+         render json: {
+           data: {"exec": @dynamic_plan_chart_exec,
+                  "plan": @dynamic_plan_chart_plan, index: @dynamic_plan_chart_index, "table": @index_data}
+         }, status: :ok
 
 
        end
@@ -88,15 +109,27 @@ class PagesController < ApplicationController
          @chart = ProductGroup.all.map {|pg| [pg.name, pg.sales_sum_by_year(params[:year])] }
           @data = @chart
 
+         render json: {
+           data: {"groups": @data}
+         }, status: :ok
 
        end
 
        def payment_method_sctructure
          @data = [ ["Наличный расчет" ,Sale.of_specific_year(params[:year]).in_cash.count], ["Эл. перевод", Sale.of_specific_year(params[:year]).in_transaction.count] ]
+
+
+         render json: {
+           data: {"payment_forms": @data}
+         }, status: :ok
        end
 
        def trade_form_sctructure
          @data =   [ ["Оптовые продажи" ,Sale.of_specific_year(params[:year]).is_wholesale.count], ["Продажи в розницу", Sale.of_specific_year(params[:year]).is_retail.count] ]
+
+         render json: {
+           data: {"trade_forms": @data}
+         }, status: :ok
        end
 
        def seasonality_sctructure
@@ -107,25 +140,42 @@ class PagesController < ApplicationController
            ["4 квартал", get_sales_for_specific_season_and_year(params[:year], [10,12]  ).round(2) ]
          ]
 
-       end
-
-       def average_prices
-         @chart = []
-         @data = []
-         Month.of_specific_year(params[:year]).each do |m|
-            @chart << [m.russian_name_of_month, m.average_sales_price]
-             @data << [
-               m.month_number,
-               m.russian_name_of_month,
-               m.average_sales_price
-             ]
-         end
+         render json: {
+           data: {"seasons": @data}
+         }, status: :ok
 
        end
+
+       # def average_prices
+       #   @chart = []
+       #   @data = []
+       #   Month.of_specific_year(params[:year]).each do |m|
+       #      @chart << [m.russian_name_of_month, m.average_sales_price]
+       #       @data << [
+       #         m.month_number,
+       #         m.russian_name_of_month,
+       #         m.average_sales_price
+       #       ]
+       #   end
+       #
+       # end
 
        def abs_product_analysis
          @data = abc_product_analysis(params[:year])
+
+         render json: {
+           data: {"abc": @data}
+         }, status: :ok
        end
+
+      def xyz_analysis
+        @data_products = xyz_product_analysis(params[:year])
+        @data_groups = xyz_groups_analysis(params[:year])
+
+        render json: {
+          data: {"xyz_prod": @data_products, "xyz_group": @data_groups,}
+        }, status: :ok
+      end
 
 
        # def sales_forecast
@@ -195,36 +245,99 @@ class PagesController < ApplicationController
            Month.where(date: ( Date.parse("1-#{season_start_end_month_n[0]}-#{year}").end_of_month .. Date.parse("1-#{season_start_end_month_n[1]}-#{year}").end_of_month )).to_a.sum(&:sales_sum_indexed)
        end
 
-       def abc_product_analysis(year)
-         total_sales_sum_by_year = Sale.of_specific_year_to_array(year).sum(&:total_sum)
+       # def abc_product_analysis(year)
+       #   total_sales_sum_by_year = Sale.of_specific_year_to_array(year).sum(&:total_sum)
+       #
+       #   product_ordered_by_sales =  Product.all.to_a.sort { |a,b|  a.sales_sum_by_year(year) <=> b.sales_sum_by_year(year)   }
+       #   product_ordered_by_sales = product_ordered_by_sales.reverse()
+       #   additional_part = 0.0
+       #   abc_product_data = []
+       #
+       #   product_ordered_by_sales.each_with_index do |p, idx|
+       #       sales_sum_product = p.sales_sum_by_year(year)
+       #       part = sales_sum_product.to_f/total_sales_sum_by_year.to_f
+       #       additional_part += part
+       #
+       #       case additional_part
+       #       when 0.0 .. 0.7
+       #           group = "A"
+       #         when 0.7 .. 0.95
+       #           group = "B"
+       #         when 0.95 .. 100.0
+       #           group = "C"
+       #       end
+       #
+       #       abc_product_data << [idx+1, p.name, sales_sum_product , (part*100).round(2), additional_part.round(1), group]
+       #     end
+       #
+       #     abc_product_data
+       # end
 
-         product_ordered_by_sales =  Product.all.to_a.sort { |a,b|  a.sales_sum_by_year(year) <=> b.sales_sum_by_year(year)   }
-         product_ordered_by_sales = product_ordered_by_sales.reverse()
-         additional_part = 0.0
-         abc_product_data = []
+      def xyz_product_analysis(year)
+        xyz_data = []
+        Product.all.each do |p|
+          prod_sales = []
+          ms = Month.of_specific_year(year)
 
-         product_ordered_by_sales.each_with_index do |p, idx|
-             sales_sum_product = p.sales_sum_by_year(year)
-             part = sales_sum_product.to_f/total_sales_sum_by_year.to_f
-             additional_part += part
+          ms.each do |m|
+            prod_sales << m.sales.where(product_id: p.id).to_a.sum(&:total_sum)
+          end
 
-             case additional_part
-             when 0.0 .. 0.7
-                 group = "A"
-               when 0.7 .. 0.95
-                 group = "B"
-               when 0.95 .. 100.0
-                 group = "C"
-             end
+          sum_diffs = 0
+          (0..(prod_sales.count-2)).each{|i| sum_diffs += ( prod_sales[i] - prod_sales[i+1] ).abs }
 
-             abc_product_data << [idx+1, p.name, sales_sum_product , (part*100).round(2), additional_part.round(1), group]
-           end
+          average_sale = prod_sales.sum.to_f/prod_sales.count.to_f
 
-           abc_product_data
-       end
+          sigma = ((sum_diffs)/(prod_sales.count-1)).to_f/average_sale
 
-      def xyz_analysis
+          group = "X"
+          case sigma
+          when 0.0 .. 0.35
+            group = "X"
+          when 0.35 .. 0.78
+            group = "Y"
+            else
+            group = "Z"
+          end
+          xyz_data << [p.name, group, sigma]
+        end
 
+        xyz_data_sorted =  xyz_data.sort { |a,b|  a[2] <=> b[2]   }
+        xyz_data_sorted
+
+      end
+
+      def xyz_groups_analysis(year)
+        xyz_data = []
+        ProductGroup.all.each do |p|
+          group_sales = []
+          ms = Month.of_specific_year(year)
+          prd_ids = p.products.map(&:id)
+          ms.each do |m|
+            group_sales << m.sales.where(product_id: prd_ids).to_a.sum(&:total_sum)
+          end
+
+          sum_diffs = 0
+          (0..(group_sales.count-2)).each{|i| sum_diffs += ( group_sales[i] - group_sales[i+1] ).abs }
+
+          average_sale = group_sales.sum.to_f/group_sales.count.to_f
+
+          sigma = ((sum_diffs)/(group_sales.count-1)).to_f/average_sale
+
+          group = "X"
+          case sigma
+          when 0.0 .. 0.35
+            group = "X"
+          when 0.35 .. 0.78
+            group = "Y"
+          else
+            group = "Z"
+          end
+          xyz_data << [p.name, group, sigma]
+        end
+
+        xyz_data_sorted =  xyz_data.sort { |a,b|  a[2] <=> b[2]   }
+        xyz_data_sorted
       end
 
        def set_current_year
